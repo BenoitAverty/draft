@@ -24,7 +24,6 @@ actor Http
       promise.reject()
     end
 
-    //promise.apply(HttpResponse.create(StatusOK, recover val Map[String, String].create() end, "Test"))
 
 
 class _ResponseHandler is HTTPHandler
@@ -53,6 +52,13 @@ class _ResponseHandler is HTTPHandler
     _headers = payload.headers()
     _status = payload.status
 
+    _logger.log(Inspect(_status))
+    match _status
+    | 0 =>
+      _logger(l.Error) and _logger.log("Network error.")
+      _promise.reject()
+    end
+
     try
       for data in payload.body()?.values() do
         _body.append(data)
@@ -68,3 +74,5 @@ class _ResponseHandler is HTTPHandler
     else
       _promise.reject()
     end
+
+  fun ref cancelled() => _promise.reject()

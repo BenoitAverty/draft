@@ -12,7 +12,13 @@ actor Main
 
     let promise = Promise[HttpResponse]
     promise
-      .next[String]({(resp: HttpResponse): String => resp.string()} iso)
+      .next[String](
+        {(resp: HttpResponse): String => resp.string()} iso,
+        {(): String? =>
+          logger.log("Rejected promise.")
+          error
+        } iso
+      )
       .next[None]({(str: String) => logger.log(str)} iso)
 
     let url = try
