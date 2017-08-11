@@ -11,5 +11,5 @@ class val HttpResponse
     _headers = headers
     _payload = payload
 
-  fun string(): String val =>
+  fun string(): String =>
     _status.string() + "\n" + _payload
