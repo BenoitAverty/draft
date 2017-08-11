@@ -4,7 +4,7 @@ use "promises"
 use "collections"
 use "inspect"
 
-actor Http
+class Http
   let _client: HTTPClient
   let _logger: l.Logger[String]
 
@@ -12,7 +12,7 @@ actor Http
     _client = HTTPClient.create(auth)
     _logger = logger
 
-  be get(url: URL, promise: Promise[HttpResponse]) =>
+  fun ref get(url: URL, promise: Promise[HttpResponse]) =>
     let request = Payload.request("GET", url)
     request("Host") = "localhost"
     request("Accept") = "*/*"

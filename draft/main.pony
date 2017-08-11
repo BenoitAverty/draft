@@ -8,7 +8,7 @@ actor Main
   new create(env: Env) =>
     let logger = l.StringLogger(l.Fine, env.out)
 
-    let client = try Http(env.root as AmbientAuth, logger)? else return end
+    let client = try Http(env.root as AmbientAuth, logger) else return end
 
     let promise = Promise[HttpResponse]
     promise
