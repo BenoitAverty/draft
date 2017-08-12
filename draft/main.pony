@@ -1,3 +1,4 @@
+use "debug"
 use "net/http"
 use "httpclient"
 use "collections"
