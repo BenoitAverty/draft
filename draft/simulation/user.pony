@@ -1,15 +1,18 @@
 use "logger"
+use "../httpclient"
 
 /**
  * Sequentially executes a series of requests
  */
 actor User
   let _logger: Logger[String]
+  let _client: Http
+  let _behaviour: Iterator[(Request|WaitingPeriod)] ref
 
-  let _requests: List[RequestDescriptor]
-
-  new create(logger: Logger[String]) =>
+  new create(behaviour: Iterator[(Request|WaitingPeriod)] iso, client: Http, logger: Logger[String]) =>
     _logger = logger
+    _behaviour = consume behaviour
+    _client = client
 
-  be apply() =>
+  be do_behaviour() =>
     _logger(Fine) and _logger.log("User beginning to act.")

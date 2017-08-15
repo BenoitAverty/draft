@@ -3,15 +3,16 @@ use "logger"
 /**
  * Simulate a bunch of users that do their action simultaneously
  */
-class Simulation
-  let _logger = Logger[String]
+class val Simulation
+  let _logger: Logger[String]
 
-  let _users = List[User]
+  let _populations: Array[Population] val
 
-  new create(logger: Logger[String]) =>
+  new val create(populations: Array[Population] val, logger: Logger[String]) =>
     _logger = logger
+    _populations = populations
 
-  fun run() =>
-    for(user: User in _users.values()) do
-      user.play_scenario()
+  fun start() =>
+    for pop in _populations.values() do
+      pop.spawn_users()
     end
