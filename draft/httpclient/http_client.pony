@@ -6,13 +6,17 @@ use "inspect"
 
 actor Http
   let _client: HTTPClient
+  let _base_url: URL
   let _logger: l.Logger[String]
 
-  new create(auth: AmbientAuth, logger: l.Logger[String]) =>
+  new create(base_url: URL, auth: AmbientAuth, logger: l.Logger[String]) =>
     _client = HTTPClient.create(auth)
     _logger = logger
+    _base_url = base_url
 
-  be get(url: URL, promise: Promise[HttpResponse]) =>
+  be get(path: URL, promise: Promise[HttpResponse]) =>
+    let url = _base_url.join(path)
+
     let request = Payload.request("GET", url)
     request("Host") = "localhost"
     request("Accept") = "*/*"
@@ -52,7 +56,6 @@ class _ResponseHandler is HTTPHandler
     _headers = payload.headers()
     _status = payload.status
 
-    _logger.log(Inspect(_status))
     match _status
     | 0 =>
       _logger(l.Error) and _logger.log("Network error.")

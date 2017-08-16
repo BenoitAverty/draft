@@ -1,4 +1,6 @@
-type Behaviour is Array[(Request|WaitingPeriod)] 
+use "net/http"
+
+type Behaviour is Array[(Request|WaitingPeriod)]
 
 class val WaitingPeriod
   let _duration: U64
@@ -9,12 +11,12 @@ class val WaitingPeriod
 
 class val Request
   let _method: String
-  let _path: String
+  let _path: URL
 
-  new val create(method': String, path': String) =>
+  new val create(method': String, path': URL) =>
     _method = method'
     _path = path'
 
-  fun path(): String => _path
+  fun path(): URL => _path
 
   fun method(): String => _method

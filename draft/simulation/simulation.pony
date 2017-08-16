@@ -13,6 +13,7 @@ class val Simulation
     _populations = populations
 
   fun start() =>
+    _logger(Info) and _logger.log("Starting simulation")
     for pop in _populations.values() do
       pop.spawn_users()
     end
